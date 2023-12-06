@@ -8,7 +8,7 @@ fn main() {
     let mut sum = 0;
     for line in content.lines() {
         let mut words = line.split(" ").collect::<Vec<&str>>();
-        let id = std::str::from_utf8(&words[1].as_bytes()[..words[1].len() - 1])
+        let _ = std::str::from_utf8(&words[1].as_bytes()[..words[1].len() - 1])
             .unwrap()
             .parse::<i32>()
             .unwrap();
