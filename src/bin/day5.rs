@@ -16,32 +16,20 @@ impl ProblemState {
             .map(|x| x.parse::<u64>().unwrap())
             .collect::<Vec<_>>();
 
-        let mut map = vec![];
-        let mut i = 2;
-        let mut current_vec = vec![];
-
-        if (input[i].as_bytes()[0] as char).is_ascii_alphabetic() {}
-
-        while i < input.len() - 1 {
-            i += 1;
-
-            if (input[i].as_bytes()[0] as char).is_ascii_alphabetic() {
-                map.push(current_vec);
-                current_vec = vec![];
-            }
-
-            if (input[i].as_bytes()[0] as char).is_ascii_digit() {
-                current_vec.push(
-                    input[i]
-                        .split_whitespace()
-                        .map(|x| x.parse::<u64>().unwrap())
-                        .collect::<Vec<_>>(),
-                )
-            }
-        }
-
-        map.push(current_vec);
-        self.map = map;
+        self.map = input[2..]
+            .split(|line| line.chars().next().unwrap().is_ascii_alphabetic())
+            .filter(|group| !group.is_empty())
+            .map(|group| {
+                group
+                    .iter()
+                    .map(|line| {
+                        line.split_whitespace()
+                            .map(|x| x.parse::<u64>().unwrap())
+                            .collect()
+                    })
+                    .collect()
+            })
+            .collect();
     }
 }
 
