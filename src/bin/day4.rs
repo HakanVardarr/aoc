@@ -65,7 +65,7 @@ fn part1(state: &ProblemState) -> String {
 }
 
 fn part2(state: &ProblemState) -> String {
-    let mut result_cards = vec![0; state.numbers.len()];
+    let mut result_cards = vec![1; state.numbers.len()];
 
     for (array_index, line) in state.numbers.iter().enumerate() {
         let winning_numbers = &line[0];
