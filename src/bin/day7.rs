@@ -195,7 +195,7 @@ enum CardType {
 
 #[derive(Debug, PartialEq, Eq, Hash, PartialOrd)]
 enum WinType {
-    HighCard = 0,
+    HighCard,
     OnePair,
     TwoPair,
     ThreeOfAKind,
