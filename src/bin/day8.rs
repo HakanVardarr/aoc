@@ -104,7 +104,7 @@ fn part1(state: &ProblemState) -> String {
 }
 
 fn part2(state: &ProblemState) -> String {
-    let mut start_positions = state
+    let start_positions = state
         .elements
         .iter()
         .filter(|(&element, _)| element.ends_with("A"))
