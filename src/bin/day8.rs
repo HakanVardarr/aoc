@@ -70,7 +70,6 @@ fn main() {
 
 fn part1(state: &ProblemState) -> String {
     let mut current = "AAA";
-    let mut step = 0;
 
     for (s, direction) in state.directions.chars().cycle().enumerate() {
         let current_element = state.elements.get(current).unwrap();
@@ -81,12 +80,11 @@ fn part1(state: &ProblemState) -> String {
         }
 
         if current == "ZZZ" {
-            step = s;
-            break;
+            return s.to_string();
         }
     }
 
-    step.to_string()
+    unreachable!()
 }
 
 fn part2(state: &ProblemState) -> String {
