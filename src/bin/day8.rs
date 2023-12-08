@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 struct ProblemState<'a> {
-    directions: Vec<Direction>,
+    directions: &'a str,
     elements: HashMap<&'a str, (&'a str, &'a str)>,
 }
 
@@ -11,15 +11,7 @@ impl<'a> ProblemState<'a> {
             .lines()
             .collect::<Vec<_>>();
 
-        let directions: Vec<Direction> = input[0]
-            .chars()
-            .filter(|&ch| ch == 'R' || ch == 'L')
-            .map(|ch| match ch {
-                'R' => Direction::Right,
-                'L' => Direction::Left,
-                _ => unreachable!(),
-            })
-            .collect();
+        let directions = input[0];
 
         let mut elements: HashMap<&str, (&str, &str)> = HashMap::new();
         for &element in input.iter().skip(2) {
@@ -68,12 +60,6 @@ impl<'a> ProblemState<'a> {
     }
 }
 
-#[derive(Debug)]
-enum Direction {
-    Left,
-    Right,
-}
-
 fn main() {
     let state = ProblemState::new();
 
@@ -85,18 +71,18 @@ fn main() {
 fn part1(state: &ProblemState) -> String {
     let mut current = "AAA";
     let mut step = 0;
-    'outter: loop {
-        for direction in state.directions.iter() {
-            step += 1;
-            let current_element = state.elements.get(current).unwrap();
-            match &direction {
-                Direction::Left => current = current_element.0,
-                Direction::Right => current = current_element.1,
-            }
 
-            if current == "ZZZ" {
-                break 'outter;
-            }
+    for (s, direction) in state.directions.chars().cycle().enumerate() {
+        let current_element = state.elements.get(current).unwrap();
+        match direction {
+            'L' => current = current_element.0,
+            'R' => current = current_element.1,
+            _ => (),
+        }
+
+        if current == "ZZZ" {
+            step = s;
+            break;
         }
     }
 
@@ -118,27 +104,22 @@ fn part2(state: &ProblemState) -> String {
         .map(|(&element, _)| element)
         .collect::<Vec<_>>();
 
-    let mut total_step = 0;
     let mut steps = vec![];
     for mut current in start_positions {
-        let mut step = 0;
-        'outter: loop {
-            for direction in state.directions.iter() {
-                step += 1;
-                let current_element = state.elements.get(current).unwrap();
-                match &direction {
-                    Direction::Left => current = current_element.0,
-                    Direction::Right => current = current_element.1,
-                }
-
-                if end_positions.contains(&current) {
-                    break 'outter;
-                }
+        for (s, direction) in state.directions.chars().cycle().enumerate() {
+            if end_positions.contains(&current) {
+                steps.push(s as u64);
+                break;
+            }
+            let current_element = state.elements.get(current).unwrap();
+            match &direction {
+                'L' => current = current_element.0,
+                'R' => current = current_element.1,
+                _ => (),
             }
         }
-        steps.push(step);
     }
 
-    total_step = ProblemState::lcm_of_vector(&steps).unwrap();
+    let total_step = ProblemState::lcm_of_vector(&steps).unwrap();
     total_step.to_string()
 }
