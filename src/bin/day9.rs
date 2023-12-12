@@ -6,9 +6,7 @@ struct ProblemState {
 
 impl ProblemState {
     fn new() -> Self {
-        let input = include_str!("../../inputs/day9.txt")
-            .lines()
-            .collect::<Vec<_>>();
+        let input = include_str!("../../input.txt").lines().collect::<Vec<_>>();
 
         let mut histories = vec![];
 

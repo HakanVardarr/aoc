@@ -7,9 +7,7 @@ impl ProblemState {
         ProblemState { numbers: vec![] }
     }
     fn parse(&mut self) {
-        let input = include_str!("../../inputs/day4.txt")
-            .lines()
-            .collect::<Vec<_>>();
+        let input = include_str!("../../input.txt").lines().collect::<Vec<_>>();
 
         for line in &input {
             let card_numbers = line.split(":").collect::<Vec<_>>()[1]

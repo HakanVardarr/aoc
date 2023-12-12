@@ -6,7 +6,7 @@ struct ProblemState {
 
 impl ProblemState {
     fn new() -> Self {
-        let input = include_str!("../../inputs/day10.txt")
+        let input = include_str!("../../input.txt")
             .lines()
             .map(|x| x.chars().collect::<Vec<_>>())
             .collect::<Vec<_>>();

@@ -1,9 +1,7 @@
 use std::collections::HashSet;
 
 fn main() {
-    let lines = include_str!("../../inputs/day3.txt")
-        .lines()
-        .collect::<Vec<_>>();
+    let lines = include_str!("../../input.txt").lines().collect::<Vec<_>>();
     let mut numbers: Vec<Number> = Vec::new();
     let mut symbols: HashSet<(i64, i64)> = HashSet::new();
     let mut gears: HashSet<(i64, i64)> = HashSet::new();
