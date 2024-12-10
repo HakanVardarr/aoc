@@ -1,4 +1,4 @@
-use crate::{day, Error, InputReciever, Solver};
+use advent_of_lib::{day, Solver};
 
 fn calculate_difference(numbers: &Vec<i32>) -> Vec<i32> {
     let differences = &numbers
@@ -29,8 +29,8 @@ fn check_differences(differences: &Vec<i32>) -> bool {
     return true;
 }
 
-day!(Day2_2024, 2, 2024);
-impl Solver for Day2_2024 {
+day!(Day2, 2, 2024);
+impl Solver for Day2 {
     fn first_part(&self) -> String {
         let mut result: u32 = 0;
         for line in self.input.lines() {

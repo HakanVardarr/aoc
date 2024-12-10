@@ -1,45 +1,14 @@
-use crate::{day, Error, InputReciever, Solver};
+use advent_of_lib::{day, Solver};
+use regex::Regex;
 
-day!(Day3_2024, 3, 2024);
-impl Solver for Day3_2024 {
+day!(Day3, 3, 2024);
+impl Solver for Day3 {
     fn first_part(&self) -> String {
         let mut result: u32 = 0;
+        let re = Regex::new(r"mul\((\d{1,3}),(\d{1,3})\)").unwrap();
 
-        let chars = self.input.chars().map(|c| c as u8).collect::<Vec<u8>>();
-        for i in 0..chars.len() {
-            let mut end = i + 4;
-            if end < chars.len() {
-                let token = String::from_utf8(chars[i..end].to_vec()).unwrap();
-
-                if token == String::from("mul(") {
-                    let start = end;
-                    while end < chars.len() && chars[end].is_ascii_digit() {
-                        end += 1;
-                    }
-
-                    if chars[end] == ',' as u8 {
-                        let first_number = String::from_utf8(chars[start..end].to_vec())
-                            .unwrap()
-                            .parse::<u32>()
-                            .unwrap();
-
-                        end += 1;
-                        let start = end;
-                        while end < chars.len() && chars[end].is_ascii_digit() {
-                            end += 1;
-                        }
-
-                        if chars[end] == ')' as u8 {
-                            let second_number = String::from_utf8(chars[start..end].to_vec())
-                                .unwrap()
-                                .parse::<u32>()
-                                .unwrap();
-
-                            result += first_number * second_number;
-                        }
-                    }
-                }
-            }
+        for (_, [num1, num2]) in re.captures_iter(&self.input).map(|c| c.extract()) {
+            result += num1.parse::<u32>().unwrap() * num2.parse::<u32>().unwrap();
         }
 
         result.to_string()
@@ -47,49 +16,19 @@ impl Solver for Day3_2024 {
 
     fn second_part(&self) -> String {
         let mut result: u32 = 0;
+        let re = Regex::new(r"mul\((\d+),(\d+)\)|(do\(\))|(don't\(\))").unwrap();
 
-        let chars = self.input.chars().map(|c| c as u8).collect::<Vec<u8>>();
-        let mut multiply = true;
-        for i in 0..chars.len() {
-            let mut end = i + 4;
-            if end < chars.len() {
-                let token = String::from_utf8(chars[i..end].to_vec()).unwrap();
-
-                if token == String::from("mul(") {
-                    let start = end;
-                    while end < chars.len() && chars[end].is_ascii_digit() {
-                        end += 1;
-                    }
-
-                    if chars[end] == ',' as u8 {
-                        let first_number = String::from_utf8(chars[start..end].to_vec())
-                            .unwrap()
-                            .parse::<u32>()
-                            .unwrap();
-
-                        end += 1;
-                        let start = end;
-                        while end < chars.len() && chars[end].is_ascii_digit() {
-                            end += 1;
-                        }
-
-                        if chars[end] == ')' as u8 && multiply {
-                            let second_number = String::from_utf8(chars[start..end].to_vec())
-                                .unwrap()
-                                .parse::<u32>()
-                                .unwrap();
-
-                            result += first_number * second_number;
-                        }
-                    }
-                } else if token == String::from("do()") {
-                    multiply = true;
-                } else if token == String::from("don'") {
-                    let token = String::from_utf8(chars[i..end + 3].to_vec()).unwrap();
-                    if token == String::from("don't()") {
-                        multiply = false;
-                    }
+        let mut mul = true;
+        for capture in re.captures_iter(&self.input) {
+            if let Some(mul_match) = capture.get(1) {
+                if mul {
+                    result += mul_match.as_str().parse::<u32>().unwrap()
+                        * capture.get(2).unwrap().as_str().parse::<u32>().unwrap();
                 }
+            } else if capture.get(3).is_some() {
+                mul = true;
+            } else if capture.get(4).is_some() {
+                mul = false;
             }
         }
 

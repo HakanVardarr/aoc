@@ -1,4 +1,4 @@
-use crate::{day, Error, InputReciever, Solver};
+use advent_of_lib::{day, Solver};
 use std::iter::zip;
 
 fn generate_groups(input: &str) -> (Vec<i32>, Vec<i32>) {
@@ -14,8 +14,8 @@ fn generate_groups(input: &str) -> (Vec<i32>, Vec<i32>) {
     (first_group, second_group)
 }
 
-day!(Day1_2024, 1, 2024);
-impl Solver for Day1_2024 {
+day!(Day1, 1, 2024);
+impl Solver for Day1 {
     fn first_part(&self) -> String {
         let (mut first_group, mut second_group) = generate_groups(&self.input);
         first_group.sort();
