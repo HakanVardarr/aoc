@@ -1,7 +1,7 @@
-mod day1_2024;
-mod day2_2024;
-mod day3_2024;
+mod day1;
+mod day2;
+mod day3;
 
-pub use day1_2024::Day1_2024;
-pub use day2_2024::Day2_2024;
-pub use day3_2024::Day3_2024;
+pub use day1::Day1;
+pub use day2::Day2;
+pub use day3::Day3;
