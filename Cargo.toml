@@ -5,4 +5,5 @@ edition = "2021"
 
 [dependencies]
 advent-of-lib = { git = "https://github.com/HakanVardarr/advent-of-lib" }
+rayon = "1.10.0"
 regex = "1.11.1"
