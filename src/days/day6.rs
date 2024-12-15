@@ -90,7 +90,7 @@ impl Guard {
                 if let Some(count) = visited.get_mut(&position) {
                     *count += 1;
 
-                    if *count > 4 {
+                    if *count == 4 {
                         return None;
                     }
                 } else {
